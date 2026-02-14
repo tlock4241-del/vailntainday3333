@@ -1,0 +1,70 @@
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const heading = document.getElementById("heading");
+const bg = document.getElementById("bg");
+const gif = document.getElementById("gif");
+const names = document.getElementById("names");
+
+// Circular motion variables
+let angle = 0;
+const radius = 150;
+const centerX = window.innerWidth/2;
+const centerY = window.innerHeight/2;
+
+// Funny sad messages array (5 messages)
+const messages = [
+  "Please don't click me! 😢",
+  "Nooo, don't press me! 😭",
+  "Stop! I'm shy 😔",
+  "Ahhh why click me? 😢",
+  "Seriously, leave me 😭"
+];
+
+let hoverCount = 0;
+let noActive = true;
+
+// No button circular move & messages
+noBtn.addEventListener("mouseover", function(){
+  if(!noActive) return;
+  angle += 45;
+  const rad = angle * (Math.PI/180);
+  const x = centerX + radius * Math.cos(rad) - noBtn.offsetWidth/2;
+  const y = centerY + radius * Math.sin(rad) - noBtn.offsetHeight/2;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  hoverCount++;
+  let msgIndex = (hoverCount - 1) % messages.length;
+  noBtn.textContent = messages[msgIndex];
+  noBtn.style.color = "red";
+});
+
+noBtn.addEventListener("click", function(){
+  if(!noActive) return;
+  let msgIndex = hoverCount % messages.length;
+  noBtn.textContent = messages[msgIndex];
+  noBtn.style.color = "red";
+});
+
+// Yes button click
+yesBtn.addEventListener("click", function(){
+  heading.style.display = "none";
+  yesBtn.style.display = "none";
+
+  bg.style.display = "block";
+  gif.style.display = "block";
+  names.style.display = "block";
+
+  // Disable No button circular motion & hide No button
+  noActive = false;
+  noBtn.style.display = "none";
+
+  // Play Happy Valentine’s Day music
+  const valentineMusic = document.createElement("audio");
+  valentineMusic.src = "https://www.bensound.com/bensound-music/bensound-romantic.mp3"; // replace with Happy Valentine music URL
+  valentineMusic.autoplay = true;
+  valentineMusic.loop = true;
+  document.body.appendChild(valentineMusic);
+});
+</script>
