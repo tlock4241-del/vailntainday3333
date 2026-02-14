@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine ❤️</title>
+
+<style>
+body {
+  margin:0;
+  padding:0;
+  height:100vh;
+  font-family:Arial;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg, #ff4d6d, #ff99ac);
+}
+
+h1 {
+  color:white;
+  font-size:45px;
+  text-shadow:0 0 15px black;
+  position:absolute;
+  top:20%;
+  width:100%;
+  text-align:center;
+  z-index:2;
+}
+
+button {
+  padding:15px 30px;
+  font-size:20px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  position:absolute;
+  z-index:3;
+  transition: all 0.3s ease;
+}
+
+#yes {
+  background:white;
+  color:#ff3366;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+}
+
+#no {
+  background:grey;
+  color:white;
+  left:50%;
+  top:50%;
+  transform:translate(150px, 0);
+}
+
+.fullscreen {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-2;
+  display:none;
+}
+
+.overlay {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:-1;
+  display:none;
+}
+
+#names {
+  position:fixed;
+  top:40%;
+  width:100%;
+  text-align:center;
+  font-size:60px;
+  text-shadow:0 0 20px black;
+  color:white;
+  border-right:2px solid white;
+  white-space:nowrap;
+  overflow:hidden;
+  animation: typing 4s steps(30) forwards, blink 0.7s infinite step-end alternate;
+  display:none;
+}
+
+@keyframes typing { from { width:0; } to { width:100%; } }
+@keyframes blink { 50% { border-color: transparent; } }
+</style>
+</head>
+<body>
+
+<h1 id="heading">Will you be my Valentine? ❤️</h1>
+<button id="yes">Yes ❤️</button>
+<button id="no">No 😢</button>
+
+<img class="fullscreen" id="bg" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1600">
+<img class="overlay" id="gif" src="https://media.tenor.com/9fC7w1CqQ9AAAAAM/hearts-love.gif">
+<div id="names">Chand ❤️ Wendy</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const heading = document.getElementById("heading");
+const bg = document.getElementById("bg");
+const gif = document.getElementById("gif");
+const names = document.getElementById("names");
+
+// Circular motion
+let angle = 0;
+const radius = 150;
+const centerX = window.innerWidth/2;
+const centerY = window.innerHeight/2;
+
+// Funny sad messages
+const messages = [
+  "Please don't click me! 😢",
+  "Nooo, don't press me! 😭",
+  "Stop! I'm shy 😔",
+  "Ahhh why click me? 😢",
+  "Seriously, leave me 😭"
+];
+
+let hoverCount = 0;
+let noActive = true;
+
+noBtn.addEventListener("mouseover", function(){
+  if(!noActive) return;
+  angle += 45;
+  const rad = angle * (Math.PI/180);
+  const x = centerX + radius * Math.cos(rad) - noBtn.offsetWidth/2;
+  const y = centerY + radius * Math.sin(rad) - noBtn.offsetHeight/2;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  hoverCount++;
+  let msgIndex = (hoverCount - 1) % messages.length;
+  noBtn.textContent = messages[msgIndex];
+  noBtn.style.color = "red";
+});
+
+noBtn.addEventListener("click", function(){
+  if(!noActive) return;
+  let msgIndex = hoverCount % messages.length;
+  noBtn.textContent = messages[msgIndex];
+  noBtn.style.color = "red";
+});
+
+// Yes click
+yesBtn.addEventListener("click", function(){
+  heading.style.display = "none";
+  yesBtn.style.display = "none";
+
+  bg.style.display = "block";
+  gif.style.display = "block";
+  names.style.display = "block";
+
+  // Disable No button
+  noActive = false;
+  noBtn.style.display = "none";
+
+  // Play Happy Valentine music
+  const music = new Audio("https://www.bensound.com/bensound-music/bensound-romantic.mp3"); // replace with actual Happy Valentine track if needed
+  music.loop = true;
+  music.play();
+});
+</script>
+</body>
+</html>
